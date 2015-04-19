@@ -76,6 +76,19 @@ There are 2 public methods that use can use to add and remove actions on each no
 		}
 	});
 
+## Compatibility
+
+This  plugin is compatible with `jstree 3.1.0`. I haven't tested it with
+any other version, but it will most probably work as it's not doing anything
+too complex.
+
+On  the other side, it's compatible with any browser at least as decent as IE9.
+If you really want this to work with IE8 or any other old browser, try [ES5-shim](https://github.com/es-shims/es5-shim),
+but I really can't promise you anything.
+
+I will accept patches to fix compatibility for older browser, but I will *not*
+work on that.
+	
 ## NPM
 
 You can get a copy of this library at [npm](https://www.npmjs.com/package/jstree-actions).
