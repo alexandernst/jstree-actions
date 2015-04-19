@@ -31,22 +31,18 @@
 			var self = this;
 			node_id = typeof node_id === Object ? node_id : [node_id];
 
-			console.log("before add", this._actions);
-
-			$.each(node_id, function (nidx, node_id) {
-				if (self._actions[node_id] === undefined) {
-					self._actions[node_id] = [];
+			node_id.forEach(function (_node_id) {
+				if (self._actions[_node_id] === undefined) {
+					self._actions[_node_id] = [];
 				}
 
 				var action_exists = false;
-				$.each(self._actions[node_id], function (aidx, av) {
-					if (av.id === action.id) action_exists = true;
+				self._actions[_node_id].forEach(function (_action) {
+					if (_action.id === action.id) action_exists = true;
 				});
 
-				if (!action_exists) self._actions[node_id].push(action);
+				if (!action_exists) self._actions[_node_id].push(action);
 			});
-
-			console.log("after add", this._actions);
 
 			//TODO: Redraw only the modified nodes?
 			this.redraw(true);
@@ -68,20 +64,16 @@
 				node_id === "all" ? Object.keys(this._actions) :
 					[node_id];
 
-			console.log("before remove", this._actions);
-
-			$.each(node_ids, function (nidx, node_id) {
+			node_ids.forEach(function (node_id) {
 				var actions = self._actions[node_id] || [];
 				var new_actions = [];
-				$.each(actions, function (aidx, action) {
+				actions.forEach(function (action) {
 					if(action.id !== action_id && action_id !== "all") {
 						new_actions.push(action);
 					}
 				});
 				self._actions[node_id] = new_actions;
 			});
-
-			console.log("after remove", this._actions);
 
 			//TODO: Redraw only the modified nodes?
 			this.redraw(true);
@@ -90,10 +82,10 @@
 		this._get_action = function (node_id, action_id) {
 			var actions = this._actions[node_id] || [];
 			var v = null;
-			$.each(actions, function (index, value) {
-				if (value.id === action_id) {
+			actions.forEach(function (action) {
+				if (action.id === action_id) {
 					//TODO: fill empty fields
-					v = value;
+					v = action;
 				}
 			});
 			return v;
@@ -105,12 +97,12 @@
 			if (action === null) return null;
 
 			var action_el = $('<i>');
-			$(action_el)
+			action_el
 				.addClass(action.class)
 				.text(action.text)
 				.attr(action_id, "")
 				.on(action.event, function() {
-					var node = self.get_node($(action_el));
+					var node = self.get_node(action_el);
 					action.callback(node_id, node, action_id, action_el);
 				});
 			return {
@@ -122,10 +114,12 @@
 		this._set_action = function (node_id, obj, action) {
 			if (action === null) return;
 
+			var el = action.action_el;
+			var place = $(action.action.selector, obj);
 			if (action.action.after) {
-				$(action.action_el).insertAfter( $(action.action.selector, $(obj)) );
+				el.insertAfter(place);
 			} else {
-				$(action.action_el).insertBefore( $(action.action.selector, $(obj)) );
+				el.insertBefore(place);
 			}
 		};
 
@@ -142,18 +136,15 @@
 				//Check if we have any specific actions for this node
 				var actions = this._actions[node_id] || [];
 
-				$.each(actions, function (index, action) {
-					//console.log("Adding " + action.id + " to object ", el);
+				actions.forEach(function (action) {
 					if (self._has_action(el, action.id)) return;
 					var _action = self._create_action(node_id, action.id);
 					self._set_action(node_id, el, _action);
 				});
 
-				//Check if we have any global actions
 				actions = this._actions["all"] || [];
 
-				$.each(actions, function (index, action) {
-					//console.log("Adding " + action.id + " to object ", el);
+				actions.forEach(function (action) {
 					if (self._has_action(el, action.id)) return;
 					var _action = self._create_action("all", action.id);
 					self._set_action(node_id, el, _action);
