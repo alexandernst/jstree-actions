@@ -1,0 +1,20 @@
+{
+  "name": "jstree-actions",
+  "version": "0.0.1",
+  "description": "jstree plugin that allows adding actions on each node",
+  "main": "jstree-actions.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandernst/jstree-actions.git"
+  },
+  "keywords": [
+    "jstree",
+    "actions"
+  ],
+  "author": "Alexander Nestorov <alexandernst@gmail.com>",
+  "license": "GNU GPL v3",
+  "bugs": {
+    "url": "https://github.com/alexandernst/jstree-actions/issues"
+  },
+  "homepage": "https://github.com/alexandernst/jstree-actions#readme"
+}
