@@ -64,7 +64,9 @@
 		 */
 		this.remove_action = function (node_id, action_id) {
 			var self = this;
-			var node_ids = typeof node_id === Object ? node_id : [node_id];
+			var node_ids = typeof node_id === Object ? node_id :
+				node_id === "all" ? Object.keys(this._actions) :
+					[node_id];
 
 			console.log("before remove", this._actions);
 
