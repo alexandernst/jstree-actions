@@ -34,6 +34,7 @@ There are 2 public methods that use can use to add and remove actions on each no
 	*/
 
 `remove_action (node_id, action_id)`
+
 	/**
 	 * @param node_id Can be a single node id or an array of node ids
 	 * @param action_id The ID of the action to be removed
@@ -45,7 +46,7 @@ There are 2 public methods that use can use to add and remove actions on each no
 	 * A special value "all" is allowed, in which case all the actions of node_id will be removed.
 	 */
 
-#Examples
+## Examples
 
 ### Add a "remove" action to all nodes
 
@@ -75,10 +76,10 @@ There are 2 public methods that use can use to add and remove actions on each no
 		}
 	});
 
-# NPM
+## NPM
 
 You can get a copy of this library at [npm](https://www.npmjs.com/package/jstree-actions).
 
-# Minify
+## Minify
 
 Min version is created with [refresh-sf](http://refresh-sf.com/)
