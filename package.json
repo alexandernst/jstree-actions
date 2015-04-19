@@ -1,6 +1,6 @@
 {
   "name": "jstree-actions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "jstree plugin that allows adding actions on each node",
   "main": "jstree-actions.js",
   "repository": {
