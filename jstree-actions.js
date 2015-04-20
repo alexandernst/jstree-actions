@@ -18,7 +18,7 @@
 		 * id       <- string An ID which identifies the action. The same ID can be shared across different nodes
 		 * text     <- string The action's text
 		 * class    <- string (a string containing all the classes you want to add to the action (space separated)
-		 * selector <- a selector that would specify where to insert the action.
+		 * selector <- a selector that would specify where to insert the action. Note that this is a plain JavaScript selector and not a jQuery one.
 		 * after    <- bool (insert the action after (true) or before (false) the element matching the <selector> key
 		 * event    <- string The event on which the trigger will be called
 		 * callback <- function that will be called when the action is clicked
@@ -110,12 +110,12 @@
 		this._set_action = function (node_id, obj, action) {
 			if (action === null) return;
 
-			var el = $(action.action_el);
-			var place = $(action.action.selector, obj);
+			var el = action.action_el;
+			var place = obj.querySelector(action.action.selector);
 			if (action.action.after) {
-				el.insertAfter(place);
+				place.parentNode.insertBefore(el, place.nextSibling);
 			} else {
-				el.insertBefore(place);
+				obj.insertBefore(el, place);
 			}
 		};
 

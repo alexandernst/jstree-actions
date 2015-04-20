@@ -23,7 +23,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 	* id       <- string An ID which identifies the action. The same ID can be shared across different nodes
 	* text     <- string The action's text
 	* class    <- string (a string containing all the classes you want to add to the action (space separated)
-	* selector <- a selector that would specify where to insert the action.
+	* selector <- a selector that would specify where to insert the action. Note that this is a plain JavaScript selector and not a jQuery one.
 	* after    <- bool (insert the action after (true) or before (false) the element matching the <selector> key
 	* event    <- string The event on which the trigger will be called
 	* callback <- function that will be called when the action is clicked
