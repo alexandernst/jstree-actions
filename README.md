@@ -1,6 +1,6 @@
 # jstree-actions
 
-jstree plugin that allows adding actions on each node.
+[jstree](http://www.jstree.com/) plugin that allows adding actions on each node.
 
 An action is, usually, but not limited to, a button that can be placed anywhere in the row of a node in jstree.
 
@@ -8,7 +8,7 @@ The most common example is a typical set of common actions (add and remove) on e
 
 ![Screenshot](https://github.com/alexandernst/jstree-actions/raw/master/screenshot.png)
 
-There are 2 public methods that use can use to add and remove actions on each node or to all nodes at once.
+There are 2 public methods that you can use to add and remove actions on each node or to all nodes at once.
 
 `add_action (node_id, action)`
 
