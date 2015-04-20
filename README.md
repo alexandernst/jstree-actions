@@ -23,14 +23,14 @@ There are 2 public methods that you can use to add and remove actions on each no
 	* id       <- string An ID which identifies the action. The same ID can be shared across different nodes
 	* text     <- string The action's text
 	* class    <- string (a string containing all the classes you want to add to the action (space separated)
-	* selector <- a selector that would specify where to insert the action. Note that this is a plain JavaScript selector and not a jQuery one.
+	* selector <- a selector that would specify where to insert the action.
 	* after    <- bool (insert the action after (true) or before (false) the element matching the <selector> key
 	* event    <- string The event on which the trigger will be called
 	* callback <- function that will be called when the action is clicked
 	*
 	* NOTES: Please keep in mind that:
 	* - the id's are strictly compared (===)
-	* - the selector has access to all children on nodes with leafs/children, so most probably you'd want to use :first or similar
+	* - the selector is a plain JavaScript selector and not a jQuery one
 	*/
 
 `remove_action (node_id, action_id)`
@@ -55,7 +55,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 		"class": "action_remove pull-right",
 		"text": "",
 		"after": true,
-		"selector": "a:first",
+		"selector": "a",
 		"event": "click",
 		"callback": function(node_id, node, action_id, action_el){
 			console.log("callback", node_id, action_id);
@@ -69,7 +69,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 		"class": "action_add pull-right",
 		"text": "",
 		"after": true,
-		"selector": "a:first",
+		"selector": "a",
 		"event": "click",
 		"callback": function(node_id, node, action_id, action_el){
 			console.log("callback", node_id, action_id);
