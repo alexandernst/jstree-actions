@@ -76,6 +76,14 @@ There are 2 public methods that you can use to add and remove actions on each no
 		}
 	});
 
+### Remove all actions from the node with id `1`
+
+	container.jstree(true).remove_action("1", "all");
+	
+### Remove the `action_remove` action from all nodes
+	
+	container.jstree(true).remove_action("all", "action_remove");
+	
 ## Compatibility
 
 This  plugin is compatible with `jstree 3.1.0`. I haven't tested it with
