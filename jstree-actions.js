@@ -31,15 +31,12 @@
 			var self = this;
 			node_id = typeof node_id === Object ? node_id : [node_id];
 
-			node_id.forEach(function (_node_id) {
-				if (self._actions[_node_id] === undefined) {
-					self._actions[_node_id] = [];
-				}
+			for (var i = 0; i < node_id.length; i++) {
+				var _node_id = node_id[i];
+				var actions = self._actions[_node_id] = self._actions[_node_id] || [];
 
-				if (!self._has_action(_node_id, action.id)) {
-					self._actions[_node_id].push(action);
-				}
-			});
+				if (!self._has_action(_node_id, action.id)) actions.push(action);
+			}
 
 			//TODO: Redraw only the modified nodes?
 			this.redraw(true);
@@ -61,31 +58,33 @@
 				node_id === "all" ? Object.keys(this._actions).concat('all') :
 					[node_id];
 
-			node_ids.forEach(function (node_id) {
+			for (var i = 0; i < node_ids.length; i++) {
+				node_id = node_ids[i];
 				var actions = self._actions[node_id] || [];
 				var new_actions = [];
-				actions.forEach(function (action) {
+
+				for (var j = 0; j < actions.length; j++) {
+					var action = actions[j];
 					if(action.id !== action_id && action_id !== "all") {
 						new_actions.push(action);
 					}
-				});
+				}
 				self._actions[node_id] = new_actions;
-			});
+			}
 
 			//TODO: Redraw only the modified nodes?
 			this.redraw(true);
 		};
 
 		this._create_action = function (node_id, action_id) {
-			var self = this;
 			var action = this._get_action(node_id, action_id);
 			if (action === null) return null;
 
 			var action_el = document.createElement("i");
+			var node = this.get_node(action_el);
 			action_el.className = action.class;
 			action_el.textContent = action.text;
 			action_el.onclick = function() {
-				var node = self.get_node(action_el);
 				action.callback(node_id, node, action_id, action_el);
 			};
 
@@ -98,12 +97,13 @@
 		this._get_action = function (node_id, action_id) {
 			var actions = this._actions[node_id] || [];
 			var v = null;
-			actions.forEach(function (action) {
+			for (var i = 0; i < actions.length; i++) {
+				var action = actions[i];
 				if (action.id === action_id) {
-					//TODO: fill empty fields
+					//TODO: fill empty fields with default values?
 					v = action;
 				}
-			});
+			}
 			return v;
 		};
 
@@ -120,17 +120,18 @@
 
 		this._has_action = function (node_id, action_id) {
 			var found = false;
+			var actions = this._actions;
 
-			if (this._actions.hasOwnProperty(node_id)) {
-				this._actions[node_id].forEach(function (action) {
-					if (action.id === action_id) found = true;
-				});
+			if (actions.hasOwnProperty(node_id)) {
+				for (var i = 0; i < actions[node_id].length; i++) {
+					if (actions[node_id][i].id === action_id) found = true;
+				}
 			}
 
 			if (this._actions.hasOwnProperty('all')) {
-				this._actions['all'].forEach(function (action) {
-					if (action.id === action_id) found = true;
-				});
+				for (i = 0; i < actions['all'].length; i++) {
+					if (actions['all'][i].id === action_id) found = true;
+				}
 			}
 
 			return found;
@@ -144,17 +145,17 @@
 				//Check if we have any specific actions for this node
 				var actions = this._actions[node_id] || [];
 
-				actions.forEach(function (action) {
-					var _action = self._create_action(node_id, action.id);
+				for (var i = 0; i < actions.length; i++) {
+					var _action = self._create_action(node_id, actions[i].id);
 					self._set_action(node_id, el, _action);
-				});
+				}
 
 				actions = this._actions["all"] || [];
 
-				actions.forEach(function (action) {
-					var _action = self._create_action("all", action.id);
+				for (i = 0; i < actions.length; i++) {
+					_action = self._create_action("all", actions[i].id);
 					self._set_action(node_id, el, _action);
-				});
+				}
 			}
 			return el;
 		};

@@ -90,11 +90,10 @@ This  plugin is compatible with `jstree 3.1.0`. I haven't tested it with
 any other version, but it will most probably work as it's not doing anything
 too complex.
 
-On  the other side, it's compatible with any browser at least as decent as IE9.
-If you really want this to work with IE8 or any other old browser, try [ES5-shim](https://github.com/es-shims/es5-shim),
-but I really can't promise you anything.
+On  the other side, it is compatible with any browser at least as decent as IE8.
+It may work with IE7, but I haven't tested it so I can't tell for sure.
 
-I will accept patches to fix compatibility for older browser, but I will *not*
+I will accept patches to fix compatibility for older browsers, but I will *not*
 work on that.
 	
 ## NPM
