@@ -36,12 +36,9 @@
 					self._actions[_node_id] = [];
 				}
 
-				var action_exists = false;
-				self._actions[_node_id].forEach(function (_action) {
-					if (_action.id === action.id) action_exists = true;
-				});
-
-				if (!action_exists) self._actions[_node_id].push(action);
+				if (!self._has_action(_node_id, action.id)) {
+					self._actions[_node_id].push(action);
+				}
 			});
 
 			//TODO: Redraw only the modified nodes?
@@ -61,7 +58,7 @@
 		this.remove_action = function (node_id, action_id) {
 			var self = this;
 			var node_ids = typeof node_id === Object ? node_id :
-				node_id === "all" ? Object.keys(this._actions) :
+				node_id === "all" ? Object.keys(this._actions).concat('all') :
 					[node_id];
 
 			node_ids.forEach(function (node_id) {
@@ -96,15 +93,14 @@
 			var action = this._get_action(node_id, action_id);
 			if (action === null) return null;
 
-			var action_el = $('<i>');
-			action_el
-				.addClass(action.class)
-				.text(action.text)
-				.attr(action_id, "")
-				.on(action.event, function() {
-					var node = self.get_node(action_el);
-					action.callback(node_id, node, action_id, action_el);
-				});
+			var action_el = document.createElement("i");
+			action_el.className = action.class;
+			action_el.textContent = action.text;
+			action_el.onclick = function() {
+				var node = self.get_node(action_el);
+				action.callback(node_id, node, action_id, action_el);
+			};
+
 			return {
 				"action": action,
 				"action_el": action_el
@@ -114,7 +110,7 @@
 		this._set_action = function (node_id, obj, action) {
 			if (action === null) return;
 
-			var el = action.action_el;
+			var el = $(action.action_el);
 			var place = $(action.action.selector, obj);
 			if (action.action.after) {
 				el.insertAfter(place);
@@ -123,9 +119,22 @@
 			}
 		};
 
-		this._has_action = function (obj, action_id) {
-			var attr = $(obj).attr(action_id);
-			return (attr !== undefined) && (attr !== false);
+		this._has_action = function (node_id, action_id) {
+			var found = false;
+
+			if (this._actions.hasOwnProperty(node_id)) {
+				this._actions[node_id].forEach(function (action) {
+					if (action.id === action_id) found = true;
+				});
+			}
+
+			if (this._actions.hasOwnProperty('all')) {
+				this._actions['all'].forEach(function (action) {
+					if (action.id === action_id) found = true;
+				});
+			}
+
+			return found;
 		};
 
 		this.redraw_node = function (obj, deep, callback, force_draw) {
@@ -137,7 +146,6 @@
 				var actions = this._actions[node_id] || [];
 
 				actions.forEach(function (action) {
-					if (self._has_action(el, action.id)) return;
 					var _action = self._create_action(node_id, action.id);
 					self._set_action(node_id, el, _action);
 				});
@@ -145,7 +153,6 @@
 				actions = this._actions["all"] || [];
 
 				actions.forEach(function (action) {
-					if (self._has_action(el, action.id)) return;
 					var _action = self._create_action("all", action.id);
 					self._set_action(node_id, el, _action);
 				});
