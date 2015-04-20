@@ -76,18 +76,6 @@
 			this.redraw(true);
 		};
 
-		this._get_action = function (node_id, action_id) {
-			var actions = this._actions[node_id] || [];
-			var v = null;
-			actions.forEach(function (action) {
-				if (action.id === action_id) {
-					//TODO: fill empty fields
-					v = action;
-				}
-			});
-			return v;
-		};
-
 		this._create_action = function (node_id, action_id) {
 			var self = this;
 			var action = this._get_action(node_id, action_id);
@@ -107,15 +95,26 @@
 			};
 		};
 
+		this._get_action = function (node_id, action_id) {
+			var actions = this._actions[node_id] || [];
+			var v = null;
+			actions.forEach(function (action) {
+				if (action.id === action_id) {
+					//TODO: fill empty fields
+					v = action;
+				}
+			});
+			return v;
+		};
+
 		this._set_action = function (node_id, obj, action) {
 			if (action === null) return;
 
-			var el = action.action_el;
 			var place = obj.querySelector(action.action.selector);
 			if (action.action.after) {
-				place.parentNode.insertBefore(el, place.nextSibling);
+				place.parentNode.insertBefore(action.action_el, place.nextSibling);
 			} else {
-				obj.insertBefore(el, place);
+				obj.insertBefore(action.action_el, place);
 			}
 		};
 
