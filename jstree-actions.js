@@ -76,16 +76,15 @@
 			this.redraw(true);
 		};
 
-		this._create_action = function (node_id, action_id) {
+		this._create_action = function (node_id, node, action_id) {
 			var action = this._get_action(node_id, action_id);
 			if (action === null) return null;
 
 			var action_el = document.createElement("i");
-			var node = this.get_node(action_el);
 			action_el.className = action.class;
 			action_el.textContent = action.text;
 			action_el.onclick = function() {
-				action.callback(node_id, node, action_id, action_el);
+				action.callback(node.id, node, action_id, action_el);
 			};
 
 			return {
@@ -107,14 +106,14 @@
 			return v;
 		};
 
-		this._set_action = function (node_id, obj, action) {
+		this._set_action = function (node_id, node, action) {
 			if (action === null) return;
 
-			var place = obj.querySelector(action.action.selector);
+			var place = node.querySelector(action.action.selector);
 			if (action.action.after) {
 				place.parentNode.insertBefore(action.action_el, place.nextSibling);
 			} else {
-				obj.insertBefore(action.action_el, place);
+				node.insertBefore(action.action_el, place);
 			}
 		};
 
@@ -137,27 +136,26 @@
 			return found;
 		};
 
-		this.redraw_node = function (obj, deep, callback, force_draw) {
+		this.redraw_node = function (node_id, deep, callback, force_draw) {
 			var self = this;
-			var node_id = obj;
-			var el = parent.redraw_node.call(this, obj, deep, callback, force_draw);
-			if (el) {
+			var node = parent.redraw_node.call(this, node_id, deep, callback, force_draw);
+			if (node) {
 				//Check if we have any specific actions for this node
 				var actions = this._actions[node_id] || [];
 
 				for (var i = 0; i < actions.length; i++) {
-					var _action = self._create_action(node_id, actions[i].id);
-					self._set_action(node_id, el, _action);
+					var _action = self._create_action(node_id, node, actions[i].id);
+					self._set_action(node_id, node, _action);
 				}
 
 				actions = this._actions["all"] || [];
 
 				for (i = 0; i < actions.length; i++) {
-					_action = self._create_action("all", actions[i].id);
-					self._set_action(node_id, el, _action);
+					_action = self._create_action("all", node, actions[i].id);
+					self._set_action(node_id, node, _action);
 				}
 			}
-			return el;
+			return node;
 		};
 
 	}
