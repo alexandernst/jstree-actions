@@ -140,7 +140,7 @@
 
 		this.redraw_node = function (obj, deep, callback, force_draw) {
 			var self = this;
-			var node_id = obj;
+			var node_id = typeof obj === "object" ? obj.id : obj;
 			var el = parent.redraw_node.call(this, obj, deep, callback, force_draw);
 			if (el) {
 				//Check if we have any specific actions for this node
