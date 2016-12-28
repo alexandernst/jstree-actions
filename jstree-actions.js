@@ -29,7 +29,7 @@
 		 */
 		this.add_action = function (node_id, action) {
 			var self = this;
-			node_id = typeof node_id === Object ? node_id : [node_id];
+			node_id = typeof node_id === 'object' ? node_id : [node_id];
 
 			for (var i = 0; i < node_id.length; i++) {
 				var _node_id = node_id[i];
@@ -54,7 +54,7 @@
 		 */
 		this.remove_action = function (node_id, action_id) {
 			var self = this;
-			var node_ids = typeof node_id === Object ? node_id :
+			var node_ids = typeof node_id === 'object' ? node_id :
 				node_id === "all" ? Object.keys(this._actions).concat('all') :
 					[node_id];
 
