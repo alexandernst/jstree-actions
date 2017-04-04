@@ -46,11 +46,11 @@
 				var _node_id = node_id[i];
 				var actions = self._actions[_node_id] = self._actions[_node_id] || [];
 
-				if (!self._has_action(_node_id, action.id)) actions.push(action);
+				if (!self._has_action(_node_id, action.id)) {
+					actions.push(action);
+					this.redraw_node(_node_id);
+				}
 			}
-
-			//TODO: Redraw only the modified nodes?
-			this.redraw(true);
 		};
 
 		/**
@@ -80,11 +80,13 @@
 						new_actions.push(action);
 					}
 				}
-				self._actions[node_id] = new_actions;
+				var ids = actions.map(function(x) { return x.id; });
+				var new_ids = new_actions.map(function(x) { return x.id; });
+				if (ids.length != new_ids.length || ids.filter(function(n) { return new_ids.indexOf(n) === -1; }).length) {
+					self._actions[node_id] = new_actions;
+					this.redraw_node(node_id);
+				}
 			}
-
-			//TODO: Redraw only the modified nodes?
-			this.redraw(true);
 		};
 
 		this._create_action = function (node_id, action_id) {
