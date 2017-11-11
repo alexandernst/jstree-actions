@@ -40,17 +40,20 @@
 		 */
 		this.add_action = function (node_id, action) {
 			var self = this;
-			node_id = typeof node_id === 'object' ? node_id : [node_id];
+			var node_ids = typeof node_id === 'object' ? node_id : [node_id];
 
-			for (var i = 0; i < node_id.length; i++) {
-				var _node_id = node_id[i];
+			var should_redraw_all = node_ids.indexOf("all") > -1;
+			for (var i = 0; i < node_ids.length; i++) {
+				var _node_id = node_ids[i];
 				var actions = self._actions[_node_id] = self._actions[_node_id] || [];
 
 				if (!self._has_action(_node_id, action.id)) {
 					actions.push(action);
-					this.redraw_node(_node_id);
+					if (!should_redraw_all) this.redraw_node(_node_id);
 				}
 			}
+
+			if (should_redraw_all) this.redraw(true);
 		};
 
 		/**
@@ -66,9 +69,9 @@
 		this.remove_action = function (node_id, action_id) {
 			var self = this;
 			var node_ids = typeof node_id === 'object' ? node_id :
-				node_id === "all" ? Object.keys(this._actions).concat('all') :
-					[node_id];
+				node_id === "all" ? Object.keys(this._actions) : [node_id];
 
+			var should_redraw_all = node_ids.indexOf("all") > -1;
 			for (var i = 0; i < node_ids.length; i++) {
 				node_id = node_ids[i];
 				var actions = self._actions[node_id] || [];
@@ -80,12 +83,19 @@
 						new_actions.push(action);
 					}
 				}
+
 				var ids = actions.map(function(x) { return x.id; });
 				var new_ids = new_actions.map(function(x) { return x.id; });
+
 				if (ids.length != new_ids.length || ids.filter(function(n) { return new_ids.indexOf(n) === -1; }).length) {
 					self._actions[node_id] = new_actions;
-					this.redraw_node(node_id);
+
+					if (!should_redraw_all) this.redraw_node(node_id);
 				}
+			}
+
+			if (should_redraw_all) {
+				this.redraw(true);
 			}
 		};
 
