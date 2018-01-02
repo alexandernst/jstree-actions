@@ -23,6 +23,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 	* id       <- string An ID which identifies the action. The same ID can be shared across different nodes
 	* text     <- string The action's text
 	* class    <- string (a string containing all the classes you want to add to the action (space separated)
+	* title	<- string The actions title for display of tooltip (optional)
 	* selector <- a selector that would specify where to insert the action.
 	* after    <- bool (insert the action after (true) or before (false) the element matching the <selector> key
 	* event    <- string The event on which the trigger will be called
@@ -53,6 +54,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 	container.jstree(true).add_action("all", {
 		"id": "action_remove",
 		"class": "action_remove pull-right",
+		"title": "Remove Node",
 		"text": "",
 		"after": true,
 		"selector": "a",
@@ -67,6 +69,7 @@ There are 2 public methods that you can use to add and remove actions on each no
 	container.jstree(true).add_action("1", {
 		"id": "action_add",
 		"class": "action_add pull-right",
+		"title": "Add Child"
 		"text": "",
 		"after": true,
 		"selector": "a",
