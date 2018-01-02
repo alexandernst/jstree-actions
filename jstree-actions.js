@@ -29,6 +29,7 @@
 		 * id       <- string An ID which identifies the action. The same ID can be shared across different nodes
 		 * text     <- string The action's text
 		 * class    <- string (a string containing all the classes you want to add to the action (space separated)
+		 * title	<- string The actions title for display of tooltip (optional)
 		 * selector <- a selector that would specify where to insert the action. Note that this is a plain JavaScript selector and not a jQuery one.
 		 * after    <- bool (insert the action after (true) or before (false) the element matching the <selector> key
 		 * event    <- string The event on which the trigger will be called
@@ -107,6 +108,10 @@
 			var action_el = document.createElement("i");
 			action_el.className = action.class;
 			action_el.textContent = action.text;
+			if(action.title && action.title.length > 0){
+				action_el.title = action.title;
+			}
+
 			action_el.onclick = function() {
 				var node = self.get_node(action_el);
 				action.callback(node_id, node, action_id, action_el);
