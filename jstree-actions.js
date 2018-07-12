@@ -112,9 +112,9 @@
 				action_el.title = action.title;
 			}
 
-			action_el.onclick = function() {
+			action_el.onclick = function(e) {
 				var node = self.get_node(action_el);
-				action.callback(node_id, node, action_id, action_el);
+				action.callback(node_id, node, action_id, action_el, e);
 			};
 
 			return {
